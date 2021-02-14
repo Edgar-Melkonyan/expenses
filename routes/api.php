@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\UserController;
+use App\Http\Controllers\Api\ExpenseController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -18,6 +19,7 @@ Route::post('login', [AuthController::class, 'login']);
 
 Route::group(['middleware' => 'auth:api'], function() {
     Route::post('logout', [AuthController::class, 'logout']);
+    Route::resource('expenses', ExpenseController::class)->except(['create', 'edit']);
 });
 
 Route::group(['middleware' => ['auth:api', 'can:admin']], function () {

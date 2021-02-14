@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -20,5 +21,5 @@ Route::group(['middleware' => 'auth:api'], function() {
 });
 
 Route::group(['middleware' => ['auth:api', 'can:admin']], function () {
-   
+    Route::resource('users', UserController::class)->except(['create', 'edit']);
 });

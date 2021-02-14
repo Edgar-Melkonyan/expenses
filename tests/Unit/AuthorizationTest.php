@@ -5,6 +5,7 @@ namespace Tests\Unit;
 use Tests\TestCase;
 use App\Models\User;
 use App\Models\Role;
+use Laravel\Passport\Passport;
 
 class AuthorizationTest extends TestCase
 {
@@ -52,6 +53,32 @@ class AuthorizationTest extends TestCase
             ->assertJsonStructure([
                 "success" => [
                     'token',
+                ],
+            ]);
+    }
+
+    /**
+     * Test successful logout.
+     *
+     * @method POST
+     * @return void
+     */
+    public function testSuccessfulLogout()
+    {
+        $user = User::factory()->create([
+            'password' => '111111',
+            'email'    => 'test@gmail.com',
+            'name'     => 'Test',
+            'role_id'  => Role::ROLE_ADMIN
+        ]);
+
+        Passport::actingAs($user);
+        
+        $this->json('POST', 'api/logout', ['Accept' => 'application/json'])
+            ->assertStatus(200)
+            ->assertJsonStructure([
+                "success" => [
+                    'message',
                 ],
             ]);
     }

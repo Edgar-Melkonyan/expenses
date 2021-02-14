@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\ExpenseController;
 use App\Http\Controllers\Api\StatisticController;
+use App\Http\Controllers\Api\ExportController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -23,6 +24,7 @@ Route::group(['middleware' => 'auth:api'], function() {
     Route::resource('expenses', ExpenseController::class)->except(['create', 'edit']);
     Route::get('statistics/yearly',  [StatisticController::class, 'yearly']);
     Route::get('statistics/monthly', [StatisticController::class, 'monthly']);
+    Route::post('export-expenses',   [ExportController::class, 'export']);
 });
 
 Route::group(['middleware' => ['auth:api', 'can:admin']], function () {
